@@ -1,4 +1,6 @@
-Unter anderem werden die folgenden Rollen zur Einheitlichen Konfiguration der Server im KBU-Freifunk-Projekt verwenet.
+Unter anderem werden die folgenden Rollen zur einheitlichen Konfiguration der Server im KBU-Freifunk-Projekt verwendet.
+
+Die Zuordnung zwischen Rollen und Servern wird yanosz/kbu_ansible umgesetzt.
 
 #### Rolle: [kbu_backuppc](kbu_backuppc)
 Einrichtung eines Server zur Anbindung an backuppc.
