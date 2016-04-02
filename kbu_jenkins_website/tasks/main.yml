@@ -1,0 +1,39 @@
+# Jenkins repository hinzufuegen
+- apt_key: url=https://jenkins-ci.org/debian/jenkins-ci.org.key state=present 
+- apt_repository: repo='deb http://pkg.jenkins-ci.org/debian binary/' state=present
+
+# Tomcat installieren, Jenkins installieren 
+- apt: name={{ item }}  state=present update_cache=yes
+  with_items:
+  - tomcat8
+  - jenkins
+
+# Jenkins laeuft nicht Stadalone sondern im tomcat
+- lineinfile: dest=/etc/default/jenkins line=RUN_STANDALONE=false regexp=^RUN_STANDALONE
+- service: name=jenkins state=stopped
+
+# Nach Tomcat deploy'n
+- file: src="/usr/share/jenkins/jenkins.war" dest="/var/lib/tomcat8/webapps/jenkins.war" state=link 
+  notify: restart tomcat
+
+# Jenkins-Homeverzeichnis anlegen
+- file: dest="/home/tomcat8_jenkins" owner=tomcat8 state=directory
+- lineinfile: dest=/etc/default/tomcat8 line="JENKINS_HOME=/home/tomcat8_jenkins" regexp='^JENKINS_HOME='
+  notify: restart tomcat
+
+# Build-Abh. installieren
+- apt: name={{ item }}  state=present update_cache=yes
+  with_items:
+  - git
+  - curl
+  - rsync
+  - build-essential
+  - sudo 
+
+# tomcat8 has shell .. for rvm stuff
+# and my run apt-get update
+- lineinfile: "dest=/etc/sudoers line='tomcat8 ALL=NOPASSWD: /usr/bin/apt-get --quiet --yes update'"
+
+# Last: tomcat user can added keys to home directory
+- file: dest=/usr/share/tomcat8/ owner=tomcat8 state=directory
+

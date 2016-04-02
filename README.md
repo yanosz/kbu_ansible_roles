@@ -7,3 +7,9 @@ Einrichtung eines Server zur Anbindung an backuppc.
 * Installiert rsync und sudo
 * Erstellt einen Benutzer `backuppc` - Hinterlegt den SSH-Key des Server
 * Gibt dem Benutzer `backuppc` volle sudo-Rechte für `/usr/bin/rsync --server --sender *`
+
+#### Rolle: [kbu_jenkins_website](kbu_jenkins_website)
+Einrichtung eines jenkins zum Build der Homepage
+* Installiert tomcat, jenkins
+* Installiert build-Abh.
+* Installiert shell, home-directory und sudo-Rechte für tomcat8
